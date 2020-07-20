@@ -51,30 +51,85 @@
                         <th>Mockup</th>
                     </tr>
                 </thead>
+                @php
+                    $mock_up = [];
+                    $designer = [];
+                    $idea = [];
+                    $finish = [];
+                    foreach ($list_members as $key => $data) {
+                        switch ($data->name) {
+                            case 'Mockup':
+                                $mock_up = $data;
+                                break;
+                            case 'Designer':
+                                $designer = $data;
+                                break;
+                            case 'Idea':
+                                $idea = $data;
+                                break;
+                            case 'Finish':
+                                $finish = $data;
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
+                    
+                @endphp
                 <tbody>
-                    @foreach ($results as $result)
-                        @foreach ($result->cards as $card)
-                            <tr>
-                                <td>{{ str_replace(".","/",$result->name) }}</td>
-                                <td>{{ \App\Helpers\Helper::getValueFirst($card->name,"-") }}</td>
-                                @php
-                                    $role_member = \App\Helpers\Helper::checkRole($card->idMembers, $list_members);
-                                    $designer = ( $role_member['ds'] != "" ) ? $role_member['ds'] : ( $role_member['mo'] != "" ? $role_member['mo'] : "Unknow" ) ;
-                                    $mockup = ( $role_member['mo'] != "" ) ? $role_member['mo'] : ( $role_member['ds'] != "" ? $role_member['ds'] : "Unknow" ) ;
-                                @endphp
-                                <td>
-                                    {{  ($role_member['id'] != "") ? $role_member['id'] : "Unknow" }}    
-                                </td>
-                                <td>
-                                    {{ $designer  }}    
-                                </td>
-                                <td>
-                                   
-                                    {{ $mockup }}    
-                                </td>
-                            </tr>
-                        @endforeach
+                    @foreach ($results as $key=>$item)
+                        @php
+                            $customFieldItems = $item->customFieldItems;
+                            $date_finish = "";
+                            $member = [
+                                "designer"=> "",
+                                "mockup" => "",
+                                "idea" => "",
+                            ];
+                            if( $customFieldItems != [] ){
+                                foreach ($customFieldItems as $key => $customFieldItem) {
+                                    switch ($customFieldItem->idCustomField) {
+                                        case $finish->id:
+                                            $date_finish = date("d/m/Y", strtotime($customFieldItem->value->date));
+                                            break;
+                                        case $designer->id:
+                                            $id_designer = $customFieldItem->idValue;
+                                            $member["designer"] = App\Helpers\Helper::getMember($designer->options, $id_designer);
+                                            break;
+                                        case $idea->id:
+                                            $id_idea = $customFieldItem->idValue;
+                                            $member["idea"] = App\Helpers\Helper::getMember($idea->options, $id_idea);
+                                            break;
+                                        case $mock_up->id:
+                                            $id_mockup = $customFieldItem->idValue;
+                                            $member["mockup"] = App\Helpers\Helper::getMember($mock_up->options, $id_mockup);
+                                            break;
+                                        default:
+                                            # code...
+                                            break;
+                                    }
+                                }   
+                            }
                             
+                        @endphp
+                        <tr>
+                            <td>
+                                {{ $date_finish }}
+                            </td>
+                            <td>
+                                {{ App\Helpers\Helper::getValueFirst($item->name, "-") }}
+                            </td>
+                            <td>
+                                {{$member["idea"]}}
+                            </td>
+                            <td>
+                               {{$member["designer"]}}
+                            </td>
+                            <td>
+                                {{$member["mockup"]}}
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

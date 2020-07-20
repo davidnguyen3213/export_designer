@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class GetDataTrelloController extends Controller
 {
+    public function indexTool(){
+        $trello = Session::get("trello");
+        return view("login")->with(compact("trello"));
+    }
     public function getDataTrello(Request $request){
         $validator = Validator::make($request->all(), [
             'id_board' => 'required',
@@ -22,11 +26,10 @@ class GetDataTrelloController extends Controller
             "key_app" => $request->key_app,
             "id_board" => $request->id_board,
         ];
-        
-        
+        Session::put("trello", $trello);
         try {
             $client = new GuzzleHttp\Client(['base_uri' => $info_trello]);
-            $url_list_card = "/1/boards/". $trello['id_board'] ."/lists";
+            $url_list_card = "/1/boards/". $trello['id_board'] ."/cards";
             $getListCards = $client->request('GET', $url_list_card, [
                 'headers' => [
                     'Accept' => 'application/json',
@@ -34,13 +37,13 @@ class GetDataTrelloController extends Controller
                 'query' => [
                     'key' => $trello['key_app'],
                     'token' => $trello['token_app'],
-                    "cards" => "all",
-                    "card_fields" => "idMembers,name"
+                    "customFieldItems" => true,
+                    "fields" => "name"
                 ],
             ]);
             $results = json_decode($getListCards->getBody());
             
-            $url_list_member = "/1/boards/". $trello['id_board'] ."/members";
+            $url_list_member = "/1/boards/". $trello['id_board'] . "/customFields";
 
             $getListMembers = $client->request('GET', $url_list_member, [
                 'headers' => [

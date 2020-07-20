@@ -13,7 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', "GetDataTrelloController@indexTool");
 Route::post("/", "GetDataTrelloController@getDataTrello")->name("getList.trello");
