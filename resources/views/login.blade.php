@@ -78,59 +78,69 @@
                     
                 @endphp
                 <tbody>
-                    @foreach ($results as $key=>$item)
-                        @php
-                            $customFieldItems = $item->customFieldItems;
-                            $date_finish = "";
-                            $member = [
-                                "designer"=> "",
-                                "mockup" => "",
-                                "idea" => "",
-                            ];
-                            if( $customFieldItems != [] ){
-                                foreach ($customFieldItems as $key => $customFieldItem) {
-                                    switch ($customFieldItem->idCustomField) {
-                                        case $finish->id:
-                                            $date_finish = date("d/m/Y", strtotime($customFieldItem->value->date));
-                                            break;
-                                        case $designer->id:
-                                            $id_designer = $customFieldItem->idValue;
-                                            $member["designer"] = App\Helpers\Helper::getMember($designer->options, $id_designer);
-                                            break;
-                                        case $idea->id:
-                                            $id_idea = $customFieldItem->idValue;
-                                            $member["idea"] = App\Helpers\Helper::getMember($idea->options, $id_idea);
-                                            break;
-                                        case $mock_up->id:
-                                            $id_mockup = $customFieldItem->idValue;
-                                            $member["mockup"] = App\Helpers\Helper::getMember($mock_up->options, $id_mockup);
-                                            break;
-                                        default:
-                                            # code...
-                                            break;
-                                    }
-                                }   
+                    <?php
+                        $array_code_name = [];
+                        foreach ($results as $key1=>$item){
+                            $flag_code_name = App\Helpers\Helper::getValueFirst($item->name, "-");
+                            $flag_code_name = str_replace(' ', '', $flag_code_name);
+                            if( $key1 == 0 || !in_array($flag_code_name, $array_code_name)){
+                                
+                                array_push($array_code_name, $flag_code_name);
+                                
+                                $customFieldItems = $item->customFieldItems;
+                                $date_finish = "";
+                                $member = [
+                                    "designer"=> "",
+                                    "mockup" => "",
+                                    "idea" => "",
+                                ];
+                                if( $customFieldItems != [] ){
+                                    foreach ($customFieldItems as $key => $customFieldItem) {
+                                        switch ($customFieldItem->idCustomField) {
+                                            case $finish->id:
+                                                $date_finish = date("d/m/Y", strtotime($customFieldItem->value->date));
+                                                break;
+                                            case $designer->id:
+                                                $id_designer = $customFieldItem->idValue;
+                                                $member["designer"] = App\Helpers\Helper::getMember($designer->options, $id_designer);
+                                                break;
+                                            case $idea->id:
+                                                $id_idea = $customFieldItem->idValue;
+                                                $member["idea"] = App\Helpers\Helper::getMember($idea->options, $id_idea);
+                                                break;
+                                            case $mock_up->id:
+                                                $id_mockup = $customFieldItem->idValue;
+                                                $member["mockup"] = App\Helpers\Helper::getMember($mock_up->options, $id_mockup);
+                                                break;
+                                            default:
+                                                # code...
+                                                break;
+                                        }
+                                    }   
+                                }
+                        ?>
+                                <tr>
+                                    <td>
+                                        {{ $date_finish }}
+                                    </td>
+                                    <td>
+                                        {{ $flag_code_name }}
+                                    </td>
+                                    <td>
+                                        {{$member["idea"]}}
+                                    </td>
+                                    <td>
+                                    {{$member["designer"]}}
+                                    </td>
+                                    <td>
+                                        {{$member["mockup"]}}
+                                    </td>
+                                </tr>
+                        <?php
                             }
-                            
-                        @endphp
-                        <tr>
-                            <td>
-                                {{ $date_finish }}
-                            </td>
-                            <td>
-                                {{ App\Helpers\Helper::getValueFirst($item->name, "-") }}
-                            </td>
-                            <td>
-                                {{$member["idea"]}}
-                            </td>
-                            <td>
-                               {{$member["designer"]}}
-                            </td>
-                            <td>
-                                {{$member["mockup"]}}
-                            </td>
-                        </tr>
-                    @endforeach
+                        }
+                    ?>
+                    
                 </tbody>
             </table>
         </div>
