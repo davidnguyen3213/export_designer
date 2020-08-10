@@ -75,7 +75,29 @@
                                 break;
                         }
                     }
-                    
+                    $mock_up_ip = [];
+                    $designer_ip = [];
+                    $idea_ip = [];
+                    $finish_ip = [];
+                    foreach ($list_members_imported as $key => $data_ip) {
+                        switch ($data_ip->name) {
+                            case 'Mockup':
+                                $mock_up_ip = $data_ip;
+                                break;
+                            case 'Designer':
+                                $designer_ip = $data_ip;
+                                break;
+                            case 'Idea':
+                                $idea_ip = $data_ip;
+                                break;
+                            case 'Finish':
+                                $finish_ip = $data_ip;
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
                 @endphp
                 <tbody>
                     @foreach ($results as $key=>$item)
@@ -104,6 +126,59 @@
                                         case $mock_up->id:
                                             $id_mockup = $customFieldItem->idValue;
                                             $member["mockup"] = App\Helpers\Helper::getMember($mock_up->options, $id_mockup);
+                                            break;
+                                        default:
+                                            # code...
+                                            break;
+                                    }
+                                }   
+                            }
+                            
+                        @endphp
+                        <tr>
+                            <td>
+                                {{ $date_finish }}
+                            </td>
+                            <td>
+                                {{ App\Helpers\Helper::getValueFirst($item->name, "-") }}
+                            </td>
+                            <td>
+                                {{$member["idea"]}}
+                            </td>
+                            <td>
+                               {{$member["designer"]}}
+                            </td>
+                            <td>
+                                {{$member["mockup"]}}
+                            </td>
+                        </tr>
+                    @endforeach
+                    @foreach ($data_imported as $key=>$item)
+                        @php
+                            $customFieldItems = $item->customFieldItems;
+                            $date_finish = "";
+                            $member = [
+                                "designer"=> "",
+                                "mockup" => "",
+                                "idea" => "",
+                            ];
+                            if( $customFieldItems != [] ){
+                                foreach ($customFieldItems as $key => $customFieldItem) {
+                                    switch ($customFieldItem->idCustomField) {
+                                        case $finish_ip->id:
+                                            $date_finish = date("d/m/Y", strtotime($customFieldItem->value->date));
+                                            break;
+                                        case $designer_ip->id:
+                                            $id_designer = $customFieldItem->idValue;
+                                            $member["designer"] = App\Helpers\Helper::getMember($designer_ip->options, $id_designer);
+                                            break;
+                                        case $idea_ip->id:
+                                            $id_idea = $customFieldItem->idValue;
+                                            $member["idea"] = App\Helpers\Helper::getMember($idea_ip->options, $id_idea);
+                                            break;
+                                        case $mock_up_ip->id:
+                                            $id_mockup = $customFieldItem->idValue;
+                                            $member["mockup"] = App\Helpers\Helper::getMember($mock_up_ip->options, $id_mockup);
                                             break;
                                         default:
                                             # code...
