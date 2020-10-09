@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', "GetDataTrelloController@indexTool");
 Route::post("/", "GetDataTrelloController@getDataTrello")->name("getList.trello");
+Route::get("/get-process-management", "GetDataProcessManagent@index")->name("getManagement.trello");
+Route::post("/get-process-management", "GetDataProcessManagent@getDataTrello")->name("getManagement.trello");
