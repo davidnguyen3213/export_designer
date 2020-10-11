@@ -33,7 +33,7 @@
             <div class="alert alert-danger mt-3">{{ $message_error }}</div>
         @endif
         <div class="mt-3 mb-5">
-            <table id="table_id" class="display table table-bordered">
+            <table id="table_process" class="display table table-bordered">
                 <thead>
                     <tr>
                         <th>List</th>
@@ -75,11 +75,10 @@
                                 <th>{{$done->name}}</th>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $done->idMembers)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($done->due)}}</td>
-                                <td></td>
+                                <td>{{App\Helpers\Helper::getTimeTrello($done->dateLastActivity)}}</td>
                             </tr>
                         @endforeach
                     @endif
-                    @dump($list_action_done)
                     
                 </tbody>
             </table>
@@ -94,14 +93,14 @@
             let url = "https://trello.com/1/authorize?expiration=never&name=MyPersonalToken&scope=read&response_type=token&key=" + api_key;
             $("#link_get_token").attr("href", url);
         })
-        // $('#table_id').DataTable({
-        //     dom: 'Blfrtip',
-        //     buttons: [
-        //         'csv', 'excel'
-        //     ],
-        //     "order": [[0, 'desc']],
-        //     "lengthMenu": [ 10, 25, 50, 75, 100 ],
-        //     "columnDefs" : [{"targets":0, "type":"date-eu"}],
-        // });
+        $('#table_process').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
+            "order": [[0, 'desc']],
+            "lengthMenu": [ 10, 25, 50, 75, 100 ],
+            // "columnDefs" : [{"targets":0, "type":"date-eu"}],
+        });
     </script>
 @endsection
