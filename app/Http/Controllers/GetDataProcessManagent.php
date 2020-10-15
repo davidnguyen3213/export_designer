@@ -35,6 +35,7 @@ class GetDataProcessManagent extends Controller
         $query_list = [
             'key' => $trello['key_app'],
             'token' => $trello['token_app'],
+            "customFieldItems" => true,
         ];
         $list_members = Helper::callApiTrello($trello, $query_list, $url_list_member);
         //list cards process
@@ -46,18 +47,13 @@ class GetDataProcessManagent extends Controller
         //list cards done
         $url_cards_done = "/1/lists/" . $trello['id_list_done'] . "/cards";
         $list_cards_done = Helper::callApiTrello($trello, $query_list, $url_cards_done);
+        //list custom field
+        $url_list_customFields = "/1/boards/". $trello['id_board'] . "/customFields";
+        $list_customFields = Helper::callApiTrello($trello, $query_list, $url_list_customFields);
+        //list labels
+        $url_list_labels = "/1/boards/" . $trello['id_board'] . "/labels";
+        $list_labels = Helper::callApiTrello($trello, $query_list, $url_list_labels);
 
-        $query_list_action_done = [
-            'key' => $trello['key_app'],
-            'token' => $trello['token_app'],
-            "filter" => "updateCard:idList"
-        ];
-        //actions card done
-        $url_action_done = "/1/lists/" . $trello['id_list_done'] . "/actions";
-        $list_action_done = Helper::callApiTrello($trello, $query_list_action_done, $url_action_done);
-        
-        
-        
-        return view("getProcessMangent")->with(compact("list_members", "list_cards_process", "list_cards_review", "list_cards_done", "list_action_done"));
+        return view("getProcessMangent")->with(compact("list_members", "list_cards_process", "list_cards_review", "list_cards_done", "list_customFields", "list_labels"));
     }
 }

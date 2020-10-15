@@ -45,6 +45,30 @@ class Helper
         }
         return $member_name;
     }
+    public static function getLabels($list_labels, $idLabels){
+        $labels = "";
+        foreach($idLabels as $key=>$id_member){
+            foreach($list_labels as $key_2=>$member){
+                if($member->id == $id_member){
+                    $labels .= $member->name .",";
+                }
+            }
+        }
+        return $labels;
+    }
+    public static function getProirity($list_customField, $idCustomField){
+        $member_name = "";
+        foreach($idCustomField as $key=>$id_customField){
+            if( $id_customField->idCustomField == $list_customField->id ){
+                foreach( $list_customField->options as $key_2=>$value){
+                    if( $id_customField->idValue == $value->id ) {
+                        return $value->value->text;
+                    }
+                }
+            }
+        }
+        return $member_name;
+    }
     public static function getTimeTrello($time_trello = ""){
         if($time_trello != ""){
             $time = [

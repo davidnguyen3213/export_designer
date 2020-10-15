@@ -39,18 +39,24 @@
                         <th>List</th>
                         <th>Name</th>
                         <th>Member</th>
+                        <th>Label</th>
+                        <th>Priority</th>
                         <th>Due Date</th>
                         <th>Time Finish</th>
                         
                     </tr>
                 </thead>
                 <tbody>
+                    
                     @if (isset($list_cards_process))
+                        
                         @foreach ($list_cards_process as $process)
                             <tr>
                                 <td>Processing</td>
-                                <th>{{$process->name}}</th>
+                                <td>{{$process->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $process->idMembers)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($process->due)}}</td>
                                 <td></td>
                             </tr>
@@ -61,8 +67,10 @@
                         @foreach ($list_cards_review as $review)
                             <tr>
                                 <td>Review</td>
-                                <th>{{$review->name}}</th>
+                                <td>{{$review->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $review->idMembers)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($review->due)}}</td>
                                 <td></td>
                             </tr>
@@ -72,8 +80,10 @@
                         @foreach ($list_cards_done as $done)
                             <tr>
                                 <td>Done tháng 10</td>
-                                <th>{{$done->name}}</th>
+                                <td>{{$done->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $done->idMembers)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($done->due)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($done->dateLastActivity)}}</td>
                             </tr>
