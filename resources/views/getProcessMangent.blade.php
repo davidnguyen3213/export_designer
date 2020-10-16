@@ -55,7 +55,7 @@
                                 <td>Processing</td>
                                 <td>{{$process->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $process->idMembers)}}</td>
-                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($process->labels)}}</td>
                                 <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($process->due)}}</td>
                                 <td></td>
@@ -69,7 +69,7 @@
                                 <td>Review</td>
                                 <td>{{$review->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $review->idMembers)}}</td>
-                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($process->labels)}}</td>
                                 <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($review->due)}}</td>
                                 <td></td>
@@ -82,7 +82,7 @@
                                 <td>Done tháng 10</td>
                                 <td>{{$done->name}}</td>
                                 <td>{{App\Helpers\Helper::getNameMembers($list_members, $done->idMembers)}}</td>
-                                <td>{{App\Helpers\Helper::getLabels($list_labels, $process->idLabels)}}</td>
+                                <td>{{App\Helpers\Helper::getLabels($process->labels)}}</td>
                                 <td>{{App\Helpers\Helper::getProirity($list_customFields[2], $process->customFieldItems)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($done->due)}}</td>
                                 <td>{{App\Helpers\Helper::getTimeTrello($done->dateLastActivity)}}</td>

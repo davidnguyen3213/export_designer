@@ -45,14 +45,10 @@ class Helper
         }
         return $member_name;
     }
-    public static function getLabels($list_labels, $idLabels){
+    public static function getLabels($array_labels){
         $labels = "";
-        foreach($idLabels as $key=>$id_member){
-            foreach($list_labels as $key_2=>$member){
-                if($member->id == $id_member){
-                    $labels .= $member->name .",";
-                }
-            }
+        foreach($array_labels as $key=>$id_labels){
+            $labels .= $id_labels->name.", ";
         }
         return $labels;
     }

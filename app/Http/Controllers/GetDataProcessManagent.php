@@ -29,6 +29,7 @@ class GetDataProcessManagent extends Controller
             "id_list_review" => "5e65f7b064acdc64a9e678d0",
             "id_list_done" => "5f75866d6db44e833dbb64ad"
         ];
+        //m1O4A3hx
         Session::put("trello", $trello);
         //get list member
         $url_list_member = "/1/boards/" . $trello['id_board'] . "/members";
@@ -50,10 +51,7 @@ class GetDataProcessManagent extends Controller
         //list custom field
         $url_list_customFields = "/1/boards/". $trello['id_board'] . "/customFields";
         $list_customFields = Helper::callApiTrello($trello, $query_list, $url_list_customFields);
-        //list labels
-        $url_list_labels = "/1/boards/" . $trello['id_board'] . "/labels";
-        $list_labels = Helper::callApiTrello($trello, $query_list, $url_list_labels);
 
-        return view("getProcessMangent")->with(compact("list_members", "list_cards_process", "list_cards_review", "list_cards_done", "list_customFields", "list_labels"));
+        return view("getProcessMangent")->with(compact("list_members", "list_cards_process", "list_cards_review", "list_cards_done", "list_customFields"));
     }
 }
